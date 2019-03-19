@@ -2,7 +2,7 @@
 
 ## 绑定
 
-使用双大括号包含的表达式：
+使用双大括号包含的表达式:
 
 ```html
 <p>
@@ -32,11 +32,11 @@
 </html>	
 ```
 
-用图片描述：
+用图片描述:
 
 ![](assets/bootstrapping.png)
 
-引导过程三个要点：
+引导过程三个要点:
 
 - 注入器用于创建此应用程序的依赖注入
 - 注入器会创建根作用域作为应用程序作用域
@@ -44,7 +44,7 @@
 
 ## 控制器
 
-除了直接使用ngApp指令创建Angular应用，还可以手动创建：
+除了直接使用ngApp指令创建Angular应用，还可以手动创建:
 
 ```html
 <html ng-app="phonecatApp">
@@ -66,7 +66,7 @@
 </html>
 ```
 
-js代码：
+js代码:
 
 ```javascript
 var phonecatApp = angular.module('phonecatApp', []);
@@ -83,24 +83,24 @@ phonecatApp.controller('PhoneListCtrl', function ($scope) {
 });
 ```
 
-过程如下：
+过程如下:
 
 - 首先通过angular.module('phonecatApp',  [])函数创建phonecatApp对象
 - 通过phonecarApp对象的controller方法注册PhoneListCtrl对象
 - 最后在html中通过ngApp和ngController分别连接到phonecatApp和PhoneListCtrl
 
-其中需要注意两点：
+其中需要注意两点:
 
 - 注册PhoneListCtrl的时候，$scope代表该控制器作用域，在标有ngController标签内部所有绑定位置上可以访问到
-- ngRepeat指令表示为phones数组中的每个元素创建标签<li>,其中phones数组在PhoneListCtrl中定义
+- ngRepeat指令表示为phones数组中的每个元素创建标签li,其中phones数组在PhoneListCtrl中定义
 
-图片描述：
+图片描述:
 
 ![](assets/tutorial_02.png)
 
 ## 过滤器
 
-使用过滤器处理ngRepeat指令的输入：
+使用过滤器处理ngRepeat指令的输入:
 
 ```html
 <div class="container-fluid">
@@ -126,7 +126,7 @@ phonecatApp.controller('PhoneListCtrl', function ($scope) {
   </div>
 ```
 
-注意两点：
+注意两点:
 
 - 使用ngModel指令将input标签的value和query变量进行双向绑定
 - 在ngRepeat指令中使用前面绑定的query变量作为过滤器
@@ -135,7 +135,7 @@ phonecatApp.controller('PhoneListCtrl', function ($scope) {
 
 ## 排序
 
-ngRepeat指令除了接受过滤器以外还支持排序：
+ngRepeat指令除了接受过滤器以外还支持排序:
 
 ```html
 Search: <input ng-model="query">
@@ -153,7 +153,7 @@ Search: <input ng-model="query">
   </ul>
 ```
 
-控制器代码：
+控制器代码:
 
 ```javascript
 var phonecatApp = angular.module('phonecatApp', []);
@@ -175,9 +175,9 @@ phonecatApp.controller('PhoneListCtrl', function ($scope) {
 });	
 ```
 
-要点：
+要点:
 
-- 添加了<select>元素，并使用ngModel指令将value和orderProp变量双向绑定
+- 添加了select元素，并使用ngModel指令将value和orderProp变量双向绑定
 - ngRepeat指令中多加了orderBy过滤器进行排序，作用是对phones数组按照orderProp进行排序
 - 在声明PhoneListCtrl的时候给orderProp属性初始值设置为age
 
@@ -203,13 +203,13 @@ phonecatApp.controller('PhoneListCtrl', function ($scope, $http) {
 
 ## 图片SRC
 
-在Angular应用中使用<img>标签,如果src是通过绑定方式给的:
+在Angular应用中使用img标签,如果src是通过绑定方式给的:
 
 ```html
 <img src="{{phone.imageUrl}}">
 ```
 
-那么在Angular计算绑定表达式之前,<img>标签会将绑定表达式视作url地址发起请求,比如像http://localhost:8000/app/{{phone.imageUrl}}发出请求,这当然是不正确的.
+那么在Angular计算绑定表达式之前,img标签会将绑定表达式视作url地址发起请求,比如向<http://localhost:8000/app/{{phone.imageUrl}}>发出请求,这当然是不正确的.
 
 可以通过ngSrc指令解决这个问题
 
@@ -219,7 +219,7 @@ phonecatApp.controller('PhoneListCtrl', function ($scope, $http) {
 
 ## 依赖注入
 
-依赖注入是Angular的核心.在启动应用程序的时候,Angular创建了一个注入器,用于寻找并注入你所需要的服务..
+依赖注入是Angular的核心.在启动应用程序的时候,Angular创建了一个注入器,用于寻找并注入你所需要的服务.
 
 ### Provider
 
@@ -227,65 +227,65 @@ $provide服务负责告诉Angular如何新建依赖对象,具体有两种方式:
 
 - 通过module对象的config方法:
 
-  ```javascript
-  var myMod = angular.module('myModule', []);
-  
-  myMod.config(function($provide) {
-    $provide.provider('greeting', function() {
-      this.$get = function() {
-        return function(name) {
-          alert("Hello, " + name);
-        };
-      };
+```javascript
+    var myMod = angular.module('myModule', []);
+
+    myMod.config(function($provide) {
+        $provide.provider('greeting', function() {
+            this.$get = function() {
+                return function(name) {
+                    alert("Hello, " + name);
+                };
+            };
+        });
+
+        $provide.factory('greeting', function() {
+            return function(name) {
+                alert("Hello, " + name);
+            };
+        });
+
+        $provide.service('greeting', function() {
+            return function(name) {
+                alert("Hello, " + name);
+            };
+        });
+
+        $provide.value('greeting', function(name) {
+            alert("Hello, " + name);
+        });
     });
-      
-    $provide.factory('greeting', function() {
-      return function(name) {
-        alert("Hello, " + name);
-      };
-    });
-      
-    $provide.service('greeting', function() {
-      return function(name) {
-        alert("Hello, " + name);
-      };
-    });
-      
-    $provide.value('greeting', function(name) {
-      alert("Hello, " + name);
-    });
-  });
-  ```
+```
 
 - 也可以直接通过module对象调用provider,factory,service,value方法:
 
-  ```javascript
-  var myMod = angular.module('myModule', []);
-  
-  myMod.provider('greeting', function() {
-    this.$get = function() {
-      return function(name) {
+```javascript
+    var myMod = angular.module('myModule', []);
+
+    myMod.provider('greeting', function() {
+        this.$get = function() {
+            return function(name) {
+                alert("Hello, " + name);
+            };
+        };
+    });
+
+    myMod.factory('greeting', function() {
+        return function(name) {
+            alert("Hello, " + name);
+        };
+    });
+
+    myMod.service('greeting', function() {
+        return function(name) {
+            alert("Hello, " + name);
+        };
+    });
+
+    myMod.value('greeting', function(name) {
         alert("Hello, " + name);
-      };
-    };
-  });
-  
-  myMod.factory('greeting', function() {
-    return function(name) {
-      alert("Hello, " + name);
-    };
-  });
-  
-  myMod.service('greeting', function() {
-    return function(name) {
-      alert("Hello, " + name);
-    };
-  });
-  
-  myMod.value('greeting', function(name) {
-    alert("Hello, " + name);
-  });
-  ```
+    });
+```
 
 ### Injector
 
@@ -293,19 +293,19 @@ $provide服务负责告诉Angular如何新建依赖对象,具体有两种方式:
 
 - 可以通过调用get方法来获取服务名字对应的实例对象
 
-  ```javascript
+```javascript
     var greeting = $injector.get('greeting');
     greeting('Ford Prefect');
-  ```
+```
 
 - 也可以显示向任何方法进行注入
 
-  ```javascript
-  var myFunction = function(greeting) {
-    greeting('Ford Prefect');
-  };
-  $injector.invoke(myFunction);
-  ```
+```javascript
+    var myFunction = function(greeting) {
+        greeting('Ford Prefect');
+    };
+    $injector.invoke(myFunction);
+```
 
 注入器只会创建一次服务实例,以后每次通过注入器拿到的实例都和第一次创建的实例是同一个对象
 
